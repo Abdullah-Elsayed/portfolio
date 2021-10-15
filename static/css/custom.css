@@ -1,0 +1,26 @@
+.about__resume {
+    display: block;
+    display: inline-block;
+    text-align: center;
+}
+
+.portfolio__img_size img{
+    height: 230px;
+    width: 368px;
+    
+}
+
+.portfolio__img p {
+    text-align:left; 
+     text-align: justify;
+}
+
+div.anchorContainer
+{
+    float:left;
+    clear:left;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: x-large;
+
+}

@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <!-- ===== BOX ICONS ===== -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>{% block title%} Abdullah Elsayed (backend) {% endblock %}</title>
+    <link rel="icon" href="{{about.profile_pic.url}}" sizes="any">
+
+</head>
+
+<body>
+    <!--===== HEADER =====-->
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <a href="#" class="nav__logo">{{about.name}}</a>
+            </div>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#home" class="nav__link active">Home</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                    <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
+                    <li class="nav__item"><a href="#portfolio" class="nav__link">Portfolio</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="l-main">
+        <!--===== HOME =====-->
+        <section class="home" id="home">
+            <div class="home__container bd-grid">
+                <h1 class="home__title"><span>HE</span>LLO.</h1>
+
+                <div class="home__scroll">
+                    <a href="#about" class="home__scroll-link"><i class='bx bx-up-arrow-alt'></i>Scroll down</a>
+                </div>
+
+                <img src="{{about.profile_pic.url}}" alt="" class="home__img">
+            </div>
+        </section>
+
+        <!--===== ABOUT =====-->
+        <section class="about section" id="about">
+            <h2 class="section-title">About</h2>
+
+            <div class="about__container bd-grid">
+                <div class="about__img">
+                    <img src="{{about.profile_pic.url}}" alt="">
+                </div>
+
+                <div>
+                    <h2 class="about__subtitle">I'am {{about.name}}</h2>
+                    <span class="about__profession">{{about.career}}</span>
+                    <p class="about__text">I'am {{about.name}}, Back-end Developer (django). I Graduated from Al Azhar
+                        university Faculty of Science computer science program.</p>
+                    <p class="about__text about__resume "><a class="contact__button" target="_blank"
+                           href="{% static 'CV/resume.pdf' %}">Download Resume</a></p> 
+                    <div class="about__social">
+                        <a target="_blank" href="https://www.linkedin.com/in/abdullah-el-sayed"
+                            class="about__social-icon"><i class='bx bxl-linkedin'></i></a>
+                        <a target="_blank" href="https://github.com/Abdullah-Elsayed" class="about__social-icon"><i
+                                class='bx bxl-github'></i></a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--===== SKILLS =====-->
+        <section class="skills section" id="skills">
+            <h2 class="section-title"> Notable Skills</h2>
+
+            <div class="skills__container bd-grid">
+                <div class="skills__box">
+
+
+                    {% for category in categorys %}
+                    <h3 class="skills__subtitle">{{category.name}}</h3>
+                    {% for skill in category.skills_set.all %}
+                    <span class="skills__name">{{skill.name}}</span>
+                    {% endfor %}
+                    {% endfor %}
+
+
+                </div>
+
+                <div class="skills__img">
+                    <img src="{% static 'img/marketing-skills.jpg' %}" alt="skills">
+                </div>
+            </div>
+        </section>
+
+        <!--===== PORTFOLIO =====-->
+        <section class="portfolio section" id="portfolio">
+            <h2 class="section-title">Portfolio</h2>
+
+            <div class="portfolio__container bd-grid">
+                {% for project in projects %}
+                <div class="portfolio__img portfolio__img_size ">
+                    <img src="{{project.picture_pro.url}} " alt="">
+
+                    <div class="portfolio__link anchorContainer">
+                        <a href="{{project.link_github}}" class="portfolio__link-name">View details on github </a>
+                        {% if project.link_live %}
+                        <a href="{{project.link_live }}" class="portfolio__link-name ">View project live</a>
+                        {% endif%}
+
+                    </div>
+                    
+                    <div>
+                        <h3>{{project.name}}</h3>
+
+                        <p>{{project.description}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+            </div>
+        </section>
+
+        <!--===== CONTACT =====-->
+        <section class="contact section" id="contact">
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact__container bd-grid">
+                <div class="contact__info">
+                    <h3 class="contact__subtitle">EMAIL</h3>
+                    <span class="contact__text"><a href="mailto:{{about.email}}">{{about.email}}</a></span>
+
+                    <h3 class="contact__subtitle">PHONE</h3>
+                    <span class="contact__text"><a href="tel:{{about.phone}}">{{about.phone}}</a></span>
+
+                    <h3 class="contact__subtitle">ADRESS</h3>
+                    <span class="contact__text">{{about.adress}}</span>
+                </div>
+
+                <form action="" class="contact__form" method="POST">
+                    {% csrf_token %}
+                    <div class="contact__inputs">
+                        <input type="text" name='name' placeholder="Name" class="contact__input" required>
+                        <input type="email" name=email placeholder="Email" class="contact__input" required>
+                    </div>
+
+                    <input type="text" name="subject" cols="0" rows="10" placeholder="Message" class="contact__input"
+                        required>
+
+                    <textarea name="message" id="" cols="0" rows="10" placeholder="Type your message"
+                        class="contact__input" required></textarea>
+
+                    <input type="submit" id="submit" value="Send Message" class="contact__button">
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!--===== FOOTER =====-->
+    <footer class="footer section">
+        <div class="footer__container bd-grid">
+            <div class="footer__data">
+                <h2 class="footer__title">{{about.name}}</h2>
+                <p class="footer__text">I'm {{about.name}} <b> backend django deveploer</b> and this is my portfolio</p>
+            </div>
+
+            <div class="footer__data">
+                <h2 class="footer__title">EXPLORE</h2>
+                <ul>
+                    <li><a href="#home" class="footer__link">Home</a></li>
+                    <li><a href="#about" class="footer__link">About</a></li>
+                    <li><a href="#skills" class="footer__link">Skills</a></li>
+                    <li><a href="#portfolio" class="footer__link">Portfolio</a></li>
+                    <li><a href="#Contact" class="footer__link">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__data">
+                <h2 class="footer__title">FOLLOW</h2>
+                <a target="_blank" href="https://www.facebook.com/Abdullahhouseny" class="footer__social"><i
+                        class='bx bxl-facebook'></i></a>
+                <a target="_blank" href="https://twitter.com/Abdullahhouseny" class="footer__social"><i
+                        class='bx bxl-twitter'></i></a>
+                <a target="_blank" href="https://www.linkedin.com/in/abdullah-el-sayed" class="about__social-icon"><i
+                        class='bx bxl-linkedin'></i></a>
+                <a target="_blank" href="https://github.com/Abdullah-Elsayed" class="about__social-icon"><i
+                        class='bx bxl-github'></i></a>
+
+            </div>
+
+
+        </div>
+    </footer>
+
+
+    <!--===== SCROLL REVEAL =====-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!--===== MAIN JS =====-->
+    <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>
